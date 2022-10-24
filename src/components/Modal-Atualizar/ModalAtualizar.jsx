@@ -1,16 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useApi } from "../../hooks/UseApi";
 import Button from "react-bootstrap/Button";
 import Navbar from "../NavBar/NavBar";
 import "./ModalAtualizar.css";
 
 export default function AtualizarForm() {
 
-    const navigate = useNavigate();
-    const api = useApi();
-
-    const [id, setID] = useState("");
     const [telefone, setTelefone] = useState("");
     const [cep, setCep] = useState("");
     const [numero, setNumero] = useState("");
@@ -47,21 +41,41 @@ export default function AtualizarForm() {
                     </label>
                     <label>
                         <span>Numero</span>
-                        <input type="text" disabled />
+                        <input
+                            type="text"
+                            value={numero}
+                            onChange={(e) => setNumero(e.target.value.replace(/\D/g, ''))}
+                            disabled
+                        />
                     </label>
                     <label>
                         <span>Rua</span>
-                        <input type="text" disabled />
+                        <input
+                            type="text"
+                            value={rua}
+                            onChange={(e) => setRua(e.target.value.replace(/\D/g, ''))}
+                            disabled
+                        />
                     </label>
                     <label>
                         <span>Bairro</span>
-                        <input type="text" disabled />
+                        <input
+                            type="text"
+                            value={bairro}
+                            onChange={(e) => setBairro(e.target.value.replace(/\D/g, ''))}
+                            disabled
+                        />
                     </label>
 
 
                     <label>
                         <span>Senha</span>
-                        <input type="password" minLength={8} />
+                        <input
+                            type="password"
+                            value={senha}
+                            onChange={(e) => setSenha(e.target.value.replace(/\D/g, ''))}
+                            minLength={8}
+                        />
                     </label>
                     <div>
                         <Button variant="danger">Cancelar</Button>

@@ -1,14 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useApi } from "../../hooks/UseApi";
 import Button from "react-bootstrap/Button";
 import "./ModalCadastro.css";
 import { Form } from "react-bootstrap";
 
 export default function CadastroForm() {
-
-    const navigate = useNavigate();
-    const api = useApi();
 
     const [nome, setNome] = useState("");
     const [cpf, setCpf] = useState("");
@@ -91,24 +86,48 @@ export default function CadastroForm() {
                 </label>
                 <label>
                     <span>Numero</span>
-                    <input type="text" disabled />
+                    <input
+                        type="text"
+                        value={numero}
+                        onChange={(e) => setNumero(e.target.value)}
+                        disabled
+                    />
                 </label>
                 <label>
                     <span>Rua</span>
-                    <input type="text" disabled />
+                    <input
+                        type="text"
+                        value={rua}
+                        onChange={(e) => setRua(e.target.value)}
+                        disabled
+                    />
                 </label>
                 <label>
                     <span>Bairro</span>
-                    <input type="text" disabled />
+                    <input
+                        type="text"
+                        value={bairro}
+                        onChange={(e) => setBairro(e.target.value)}
+                        disabled
+                    />
                 </label>
 
                 <label>
                     <span>Email</span>
-                    <input type="email" />
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
                 </label>
                 <label>
                     <span>Senha</span>
-                    <input type="password" minLength={8} />
+                    <input
+                        type="password"
+                        minLength={8}
+                        value={senha}
+                        onChange={(e) => setSenha(e.target.value)}
+                    />
                 </label>
                 <div>
                     <Button variant="danger">Cancelar</Button>
