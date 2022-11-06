@@ -1,9 +1,14 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
-import "./ModalCadastro.css";
+import "./ModalCadastro.scss";
 import { Form } from "react-bootstrap";
+import { useCepApi } from "../../hooks/UseCepApi";
+import { useApi } from "../../hooks/UseApi";
 
 export default function CadastroForm() {
+
+    const cepApi = useCepApi();
+    const api = useApi();
 
     const [nome, setNome] = useState("");
     const [cpf, setCpf] = useState("");
@@ -15,15 +20,26 @@ export default function CadastroForm() {
     const [numero, setNumero] = useState("");
     const [rua, setRua] = useState("");
     const [bairro, setBairro] = useState("");
+    const [complemento, setComplemento] = useState("");
 
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
 
+    const colocarCep = async () => {
+        const result = await cepApi.pegarCep(cep);
+
+        setRua(result.logradouro);
+        setBairro(result.bairro);
+
+    }
+
+    const cadastrarCliente = async() => {
+        api.cadastrar(nome, cpf, telefone, nascimento, sexo, cep, numero, complemento, email, senha);
+    }
+
     return (
         <main className="cadastrar">
-
             <img width={600} src="./logo.svg" alt="Roomie_Logo" />
-
             <form className="Modal-cadastro-form">
                 <label>
                     <span>Nome Completo</span>
@@ -74,7 +90,6 @@ export default function CadastroForm() {
                         onChange={(e) => setSexo(e.target.value)}
                     /> Feminino
                 </label>
-
                 <label>
                     <span>CEP</span>
                     <input type="text"
@@ -82,15 +97,7 @@ export default function CadastroForm() {
                         maxLength={8}
                         value={cep}
                         onChange={(e) => setCep(e.target.value.replace(/\D/g, ''))}
-                    />
-                </label>
-                <label>
-                    <span>Numero</span>
-                    <input
-                        type="text"
-                        value={numero}
-                        onChange={(e) => setNumero(e.target.value)}
-                        disabled
+                        onBlur={colocarCep}
                     />
                 </label>
                 <label>
@@ -98,7 +105,7 @@ export default function CadastroForm() {
                     <input
                         type="text"
                         value={rua}
-                        onChange={(e) => setRua(e.target.value)}
+                        onChange={e => setRua(e.target.value)}
                         disabled
                     />
                 </label>
@@ -107,11 +114,26 @@ export default function CadastroForm() {
                     <input
                         type="text"
                         value={bairro}
-                        onChange={(e) => setBairro(e.target.value)}
+                        onChange={e => setBairro(e.target.value)}
                         disabled
                     />
                 </label>
-
+                <label>
+                    <span>Numero</span>
+                    <input
+                        type="text"
+                        value={numero}
+                        onChange={(e) => setNumero(e.target.value)}
+                    />
+                </label>
+                <label>
+                    <span>Complemento</span>
+                    <input
+                        type="text"
+                        value={complemento}
+                        onChange={e => setComplemento(e.target.value)}
+                    />
+                </label>
                 <label>
                     <span>Email</span>
                     <input
@@ -131,11 +153,9 @@ export default function CadastroForm() {
                 </label>
                 <div>
                     <Button variant="danger">Cancelar</Button>
-                    <Button variant="success">Confirmar</Button>
+                    <Button variant="success" onClick={cadastrarCliente}>Confirmar</Button>
                 </div>
-
             </form>
-
         </main>
     )
 }

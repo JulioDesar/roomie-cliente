@@ -1,10 +1,25 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
-import "./style.css";
+import { useApi } from '../../hooks/UseApi';
+import "./LoginForm.scss";
 
 export function LoginForm() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const api = useApi();
+
+    const logar = async() => {
+        await api.signin(email, password)
+        .then(response => {
+            if(response) {
+                sessionStorage.setItem(`token`, response.token);
+                setEmail("");
+                setPassword("");
+            }
+        });
+        
+    }
 
     return (
         <header>
@@ -36,7 +51,9 @@ export function LoginForm() {
                 <div><a href="/">Esqueci minha senha</a></div>
                 <Link to="/">
                     <button
-                        className="Login-button">
+                        className="Login-button"
+                        onClick={logar}
+                    >
                         Entrar
                     </button>
                 </Link>

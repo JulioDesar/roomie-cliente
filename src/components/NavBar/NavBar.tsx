@@ -1,5 +1,6 @@
 import React from "react";
-import "./NavBar.css";
+import "./NavBar.scss";
+import Dropdown from "react-bootstrap/Dropdown";
 
 export default function Navbar() {
     return (
@@ -12,13 +13,23 @@ export default function Navbar() {
                     <a href="*">Home</a>
                 </li>
                 <li>
-                    <a href="*">Busque Aqui</a>
+                    <a href="*">Buscar</a>
                 </li>
                 <li>
                     <a href="*">Sobre nos</a>
                 </li>
                 <li>
-                    <img width={40} src="./person.svg" alt="Roomie" />
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            <img width={40} src="./person.svg" alt="Roomie" />
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item>Imoveis</Dropdown.Item>
+                            <Dropdown.Item>Meus Dados</Dropdown.Item>
+                            <Dropdown.Item>Sair</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </li>
             </ul>
         </nav>

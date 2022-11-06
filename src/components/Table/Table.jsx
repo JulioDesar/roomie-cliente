@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "./style.css";
+import "./Table.scss";
 import { BiUserX, BiUserCheck, BiEditAlt } from "react-icons/bi";
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
