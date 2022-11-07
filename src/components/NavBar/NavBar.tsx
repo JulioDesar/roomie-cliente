@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./NavBar.scss";
 import Dropdown from "react-bootstrap/Dropdown";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/Auth/AuthContext";
 
 export default function Navbar() {
+
+    const auth = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const signout = () => {
+        auth.signout();
+        navigate("/");
+    }
+
     return (
         <nav className="NavbarAdmin-container">
             <ul>
@@ -18,19 +29,28 @@ export default function Navbar() {
                 <li>
                     <a href="*">Sobre nos</a>
                 </li>
-                <li>
-                    <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            <img width={40} src="./person.svg" alt="Roomie" />
-                        </Dropdown.Toggle>
 
-                        <Dropdown.Menu>
-                            <Dropdown.Item>Imoveis</Dropdown.Item>
-                            <Dropdown.Item>Meus Dados</Dropdown.Item>
-                            <Dropdown.Item>Sair</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </li>
+                {auth.user && (
+                    <li>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                <img width={40} src="./person.svg" alt="Roomie" />
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item>Imoveis</Dropdown.Item>
+                                <Dropdown.Item>Meus Dados</Dropdown.Item>
+                                <Dropdown.Item onClick={signout}>Sair</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </li>
+                )}
+                {!auth.user && (
+                    <li>
+                        <Link to={"/"}>Login</Link>
+                    </li>
+                )}
+
             </ul>
         </nav>
     );

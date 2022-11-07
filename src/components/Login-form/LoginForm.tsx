@@ -1,24 +1,22 @@
-import { useState } from 'react';
-import { Link } from "react-router-dom";
-import { useApi } from '../../hooks/UseApi';
+import { useContext, useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from '../../contexts/Auth/AuthContext';
 import "./LoginForm.scss";
 
 export function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const api = useApi();
+    const auth = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const logar = async() => {
-        await api.signin(email, password)
-        .then(response => {
-            if(response) {
-                sessionStorage.setItem(`token`, response.token);
-                setEmail("");
-                setPassword("");
-            }
-        });
-        
+        const isLogged = await auth.signin(email, password);
+        console.log(isLogged);
+
+        if (isLogged) {
+            navigate("/atualizar");
+        }
     }
 
     return (
