@@ -1,14 +1,10 @@
 import axios from "axios";
 
 const api = axios.create({
-	baseURL: "http://localhost:5000",
+	baseURL: "http://localhost:5050",
 });
 
 export const useApi = () => ({
-	validateToken: async (token: string) => {
-		const response = await api.get(`/auth/valid?token=${token}`);
-		return response.data;
-	},
 	signin: async (email: string, senha: string) => {
 		const response = await api.post("/auth",
 			{
@@ -37,9 +33,10 @@ export const useApi = () => ({
 			email,
 			senha
 		}).then(response => {
-			alert("Usuario cadastrado com sucesso");
+			alert("Cliente cadastrado com sucesso");
 			return response.data;
 		}).catch(err => {
+			// eslint-disable-next-line no-lone-blocks
 			{err?.response?.data?.map((item: any) => (
 				alert(item.erro)
 			))};
@@ -47,14 +44,16 @@ export const useApi = () => ({
 
 
 	},
-	atualizar: async (id: number, telefone: string, ativo: boolean, funcao: string) => {
-		const response = await api.put(`/users/${id}`, {
+	atualizar: async (id: number, telefone: string, cep: string, complemento: string, numeroCasa: string, senha: string) => {
+		const response = await api.put(`/clients/${id}`, {
 			telefone,
-			ativo,
-			funcao
+			cep,
+			complemento,
+			numeroCasa,
+			senha
 		}, {
 			headers: {
-				"Authorization": `Bearer ${localStorage.getItem("authToken")}`
+				"Authorization": `Bearer ${sessionStorage.getItem("token")}`
 			}
 		})
 		return response.status;

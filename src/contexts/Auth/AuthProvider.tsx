@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useApi } from "../../hooks/UseApi";
 import { User } from "../../types/User";
 import { AuthContext } from "./AuthContext";
@@ -6,10 +6,9 @@ import { AuthContext } from "./AuthContext";
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const [user, setUser] = useState<User | null>(null);
     const api = useApi();
-    const auth = useContext(AuthContext);
 
     useEffect(() => {
-        const loggedInUser = localStorage.getItem("user");
+        const loggedInUser = sessionStorage.getItem("user");
         console.log(loggedInUser);
         if (loggedInUser) {
             const foundUser = JSON.parse(loggedInUser);
@@ -22,10 +21,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
             .then(data => {
                 if (data.user && data.token) {
                     setUser(data.user);
-                    localStorage.setItem("user", JSON.stringify(data.user));
+                    sessionStorage.setItem("user", JSON.stringify(data.user));
                     setToken(data.token);
-
-                    console.log(data.user);
                 }
             });
         return user ? true : false;
@@ -34,7 +31,6 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const signout = () => {
         setUser(null);
         setToken(null);
-        localStorage.clear();
         sessionStorage.clear();
     }
 
