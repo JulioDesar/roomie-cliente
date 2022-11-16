@@ -12,12 +12,12 @@ export const useApi = () => ({
 				senha
 			}
 		).catch(err => {
-			if(err?.response?.data){
+			if (err?.response?.data) {
 				alert("Erro ao efetuar o login")
 			}
 		});
 
-		if(response?.data) return response.data;
+		if (response?.data) return response.data;
 
 	},
 	cadastrar: async (nome: string, cpf: string, telefone: string, nascimento: string, sexo: string, cep: string, numeroCasa: string, complemento: string, email: string, senha: string) => {
@@ -37,12 +37,36 @@ export const useApi = () => ({
 			return response.data;
 		}).catch(err => {
 			// eslint-disable-next-line no-lone-blocks
-			{err?.response?.data?.map((item: any) => (
-				alert(item.erro)
-			))};
+			{
+				err?.response?.data?.map((item: any) => (
+					alert(item.erro)
+				))
+			};
 		})
-
-
+	},
+	cadastrarImovel: async (id: number, titulo: string, cep: string, numero_casa: string, complemento: string, descricao: string, sexo: string, cidade: string, estado: string, numeroQuartos: number) => {
+		await api.post("/imoveis/cadastrarImovel", {
+			titulo,
+			cep,
+			numero_casa,
+			complemento,
+			descricao,
+			sexo,
+			cidade,
+			estado,
+			numeroQuartos,
+			id
+		}).then(response => {
+			alert("Imovel cadastrado com sucesso");
+			return response.data;
+		}).catch(err => {
+			// eslint-disable-next-line no-lone-blocks
+			{
+				err?.response?.data?.map((item: any) => (
+					alert(item.erro)
+				))
+			};
+		})
 	},
 	atualizar: async (id: number, telefone: string, cep: string, complemento: string, numeroCasa: string, senha: string) => {
 		const response = await api.put(`/clients/${id}`, {
@@ -55,7 +79,11 @@ export const useApi = () => ({
 			headers: {
 				"Authorization": `Bearer ${sessionStorage.getItem("token")}`
 			}
-		})
-		return response.status;
+		}).catch(() => {
+			alert("Erro ao atualizar seus dados");
+		});
+
+		if (response?.data) sessionStorage.setItem("user", JSON.stringify(response.data));
+		return response?.status;
 	},
 });

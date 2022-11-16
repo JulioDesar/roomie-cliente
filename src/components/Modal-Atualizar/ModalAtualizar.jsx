@@ -29,7 +29,7 @@ export default function AtualizarForm() {
     const [rua, setRua] = useState(colocarCep);
     const [bairro, setBairro] = useState(colocarCep);
     const [complemento, setComplemento] = useState(auth.user.complemento);
-    const [senha, setSenha] = useState(auth.user.password);
+    const [senha, setSenha] = useState("");
 
 
 

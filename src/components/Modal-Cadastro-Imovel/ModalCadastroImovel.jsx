@@ -1,0 +1,174 @@
+import { useState, useContext } from "react";
+import Button from "react-bootstrap/Button";
+import "./ModalCadastroImovel.scss";
+import { FloatingLabel, Form } from "react-bootstrap";
+import { useCepApi } from "../../hooks/UseCepApi";
+import { useApi } from "../../hooks/UseApi";
+import { AuthContext } from "../../contexts/Auth/AuthContext";
+import { Link } from "react-router-dom";
+import Navbar from "../NavBar/NavBar";
+
+export default function CadastroImovelForm() {
+
+    const cepApi = useCepApi();
+    const api = useApi();
+    const auth = useContext(AuthContext);
+
+    const [titulo, setTitulo] = useState("");
+    const [descricao, setDescricao] = useState("");
+    const [cep, setCep] = useState("");
+    const [numero, setNumero] = useState("");
+    const [rua, setRua] = useState("");
+    const [bairro, setBairro] = useState("");
+    const [complemento, setComplemento] = useState("");
+    const [cidade, setCidade] = useState("");
+    const [estado, setEstado] = useState("");
+    const [sexo, setSexo] = useState("");
+    const [quartos, setQuartos] = useState("");
+    const [fotos, setPhotos] = useState();
+
+    const colocarCep = async () => {
+        const result = await cepApi.pegarCep(cep);
+
+        setRua(result.logradouro);
+        setBairro(result.bairro);
+        setEstado(result.uf);
+        setCidade(result.localidade);
+
+    }
+
+    const handleFile = (e) => {
+        const newFiles = []
+        for(let i = 0; i < e.target.files.length; i++){
+           newFiles.push(e.target.files[i])
+        }
+        setPhotos(newFiles);
+     }
+
+    const cadastrarImovel = async () => {
+        api.cadastrarImovel(titulo, cep, numero, complemento, descricao, sexo, cidade, estado, quartos, auth.user.id);
+    }
+
+    return (
+        <>
+            <Navbar />
+            <main className="imovel">
+                <img width={600} src="./logo.svg" alt="Roomie_Logo" />
+                <form className="Modal-cadastro-form">
+                    <label>
+                        <span>Titulo</span>
+                        <input
+                            type="text"
+                            value={titulo}
+                            onChange={(e) => setTitulo(e.target.value)}
+                        />
+                    </label>
+
+                    <label>
+                        <span>CEP</span>
+                        <input type="text"
+                            minLength={8}
+                            maxLength={8}
+                            value={cep}
+                            onChange={(e) => setCep(e.target.value.replace(/\D/g, ''))}
+                            onBlur={colocarCep}
+                        />
+                    </label>
+                    <label>
+                        <span>Rua</span>
+                        <input
+                            type="text"
+                            value={rua}
+                            onChange={e => setRua(e.target.value)}
+                            disabled
+                        />
+                    </label>
+                    <label>
+                        <span>Bairro</span>
+                        <input
+                            type="text"
+                            value={bairro}
+                            onChange={e => setBairro(e.target.value)}
+                            disabled
+                        />
+                    </label>
+                    <label>
+                        <span>Numero</span>
+                        <input
+                            type="text"
+                            value={numero}
+                            onChange={(e) => setNumero(e.target.value)}
+                        />
+                    </label>
+                    <label>
+                        <span>Complemento</span>
+                        <input
+                            type="text"
+                            value={complemento}
+                            onChange={e => setComplemento(e.target.value)}
+                        />
+                    </label>
+
+                    <label>
+                        <span>Cidade</span>
+                        <input
+                            type="text"
+                            value={cidade}
+                            disabled
+                        />
+                    </label>
+
+                    <label>
+                        <span>Estado</span>
+                        <input
+                            type="text"
+                            value={estado}
+                            disabled
+                        />
+                    </label>
+
+                    <label>
+                        <span>Aceita Genero especifico</span>
+                        <Form.Select
+                            value={sexo}
+                            onChange={(e) => setSexo(e.target.value)}
+                        >
+                            <option value="MASCULINO" onSelect={() => setSexo("MASCULINO")}>
+                                Masculino
+                            </option>
+                            <option value="FEMININO" onSelect={() => setSexo("FEMININO")}>
+                                Feminino
+                            </option>
+                        </Form.Select>
+
+                    </label>
+
+                    <label>
+                        <span>Quantidade de Quartos</span>
+                        <input
+                            type="text"
+                            value={quartos}
+                            onChange={(e) => setQuartos(e.target.value.replace(/\D/g, ''))}
+                        />
+                    </label>
+
+                    <Form.Control type="file" multiple value={fotos} onChange={e => handleFile(e)}/>
+
+                    <FloatingLabel label="Descrição">
+                        <Form.Control
+                            as="textarea"
+                            placeholder="Leave a comment here"
+                            style={{ height: '100px' }}
+                            value={descricao}
+                            onChange={(e) => setDescricao(e.target.value)}
+                        />
+                    </FloatingLabel>
+                    <div>
+                        <Link to={"/"} ><Button variant="danger">Cancelar</Button></Link>
+                        <Button variant="success" onClick={cadastrarImovel}>Confirmar</Button>
+                    </div>
+                </form>
+            </main>
+        </>
+    )
+}

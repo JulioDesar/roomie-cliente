@@ -4,6 +4,7 @@ import "./ModalCadastro.scss";
 import { Form } from "react-bootstrap";
 import { useCepApi } from "../../hooks/UseCepApi";
 import { useApi } from "../../hooks/UseApi";
+import { Link } from "react-router-dom";
 
 export default function CadastroForm() {
 
@@ -33,8 +34,11 @@ export default function CadastroForm() {
 
     }
 
-    const cadastrarCliente = async() => {
-        api.cadastrar(nome, cpf, telefone, nascimento, sexo, cep, numero, complemento, email, senha);
+    const cadastrarCliente = async () => {
+        api.cadastrar(nome, cpf, telefone, nascimento, sexo, cep, numero, complemento, email, senha)
+            .catch(err => {
+                alert("Erro ao fazer o cadastro");
+            });
     }
 
     return (
@@ -152,7 +156,7 @@ export default function CadastroForm() {
                     />
                 </label>
                 <div>
-                    <Button variant="danger">Cancelar</Button>
+                    <Link to={"/"} ><Button variant="danger">Cancelar</Button></Link>
                     <Button variant="success" onClick={cadastrarCliente}>Confirmar</Button>
                 </div>
             </form>

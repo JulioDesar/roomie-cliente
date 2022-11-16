@@ -46,7 +46,7 @@ export function LoginForm() {
                     />
                 </label>
 
-                <div><a href="/">Esqueci minha senha</a></div>
+                <div><Link to="/cadastrar">Cadastra-se</Link></div>
                 <Link to="/">
                     <button
                         className="Login-button"
