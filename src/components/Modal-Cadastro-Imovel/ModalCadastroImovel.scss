@@ -46,6 +46,10 @@
     width: 100%;
   }
 
+  .Modal-cadastro-form label:nth-child(5) {
+    flex-direction: column;
+  }
+
   .Modal-cadastro-form label > input {
     outline: none;
     color: #054f31;

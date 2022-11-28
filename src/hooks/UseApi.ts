@@ -44,29 +44,25 @@ export const useApi = () => ({
 			};
 		})
 	},
-	cadastrarImovel: async (id: number, titulo: string, cep: string, numero_casa: string, complemento: string, descricao: string, sexo: string, cidade: string, estado: string, numeroQuartos: number) => {
-		await api.post("/imoveis/cadastrarImovel", {
-			titulo,
-			cep,
-			numero_casa,
-			complemento,
-			descricao,
-			sexo,
-			cidade,
-			estado,
-			numeroQuartos,
-			id
-		}).then(response => {
-			alert("Imovel cadastrado com sucesso");
-			return response.data;
-		}).catch(err => {
-			// eslint-disable-next-line no-lone-blocks
-			{
-				err?.response?.data?.map((item: any) => (
-					alert(item.erro)
-				))
-			};
+	cadastrarImovel: async (formData: FormData) => {
+		await api.post("/imoveis/cadastrarImovel", formData, {
+			headers: {
+				"Authorization": `Bearer ${sessionStorage.getItem("token")}`,
+				"Content-Type": "multipart/form-data"
+			}
 		})
+			.then(response => {
+				alert("Imovel cadastrado com sucesso");
+				return response.data;
+			})
+			.catch(err => {
+				// eslint-disable-next-line no-lone-blocks
+				{
+					err?.response?.data?.map((item: any) => (
+						alert(item.erro)
+					))
+				};
+			})
 	},
 	atualizar: async (id: number, telefone: string, cep: string, complemento: string, numeroCasa: string, senha: string) => {
 		const response = await api.put(`/clients/${id}`, {

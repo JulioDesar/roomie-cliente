@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
     useEffect(() => {
         const loggedInUser = sessionStorage.getItem("user");
-        console.log(loggedInUser);
         if (loggedInUser) {
             const foundUser = JSON.parse(loggedInUser);
             setUser(foundUser);

@@ -38,8 +38,8 @@ export default function Navbar() {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-                                <Dropdown.Item>Imoveis</Dropdown.Item>
-                                <Dropdown.Item>Meus Dados</Dropdown.Item>
+                                <Dropdown.Item onClick={() => navigate("/cadastrarImovel")}>Imoveis</Dropdown.Item>
+                                <Dropdown.Item onClick={() => navigate("/atualizar")}>Meus Dados</Dropdown.Item>
                                 <Dropdown.Item onClick={signout}>Sair</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>

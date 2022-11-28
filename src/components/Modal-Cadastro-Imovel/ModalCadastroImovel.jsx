@@ -13,6 +13,7 @@ export default function CadastroImovelForm() {
     const cepApi = useCepApi();
     const api = useApi();
     const auth = useContext(AuthContext);
+    const formData = new FormData();
 
     const [titulo, setTitulo] = useState("");
     const [descricao, setDescricao] = useState("");
@@ -25,28 +26,49 @@ export default function CadastroImovelForm() {
     const [estado, setEstado] = useState("");
     const [sexo, setSexo] = useState("");
     const [quartos, setQuartos] = useState("");
-    const [fotos, setPhotos] = useState();
+    const [fotos, setPhotos] = useState([]);
 
     const colocarCep = async () => {
         const result = await cepApi.pegarCep(cep);
-
         setRua(result.logradouro);
         setBairro(result.bairro);
         setEstado(result.uf);
         setCidade(result.localidade);
-
     }
 
     const handleFile = (e) => {
         const newFiles = []
-        for(let i = 0; i < e.target.files.length; i++){
-           newFiles.push(e.target.files[i])
+        for (let i = 0; i < e.target.files.length; i++) {
+            newFiles.push(e.target.files[i]);
         }
         setPhotos(newFiles);
-     }
+    }
 
     const cadastrarImovel = async () => {
-        api.cadastrarImovel(titulo, cep, numero, complemento, descricao, sexo, cidade, estado, quartos, auth.user.id);
+        const imovel = {
+            titulo: titulo,
+            cep: cep,
+            numero_casa: numero,
+            complemento: complemento,
+            descricao: descricao,
+            sexo: sexo,
+            cidade: cidade,
+            estado: estado,
+            numeroQuartos: quartos
+        };
+
+        formData.append("id", auth.user.id);
+        formData.append("data", JSON.stringify(imovel));
+
+        for (let i = 0; i < fotos.length; i++) {
+            formData.append("file", fotos[i]);
+        }
+        
+        console.log(formData.getAll("file"));
+        api.cadastrarImovel(formData)
+            .catch(() => {
+                alert("Erro ao cadastrar o imovel");
+            });
     }
 
     return (
@@ -54,7 +76,7 @@ export default function CadastroImovelForm() {
             <Navbar />
             <main className="imovel">
                 <img width={600} src="./logo.svg" alt="Roomie_Logo" />
-                <form className="Modal-cadastro-form">
+                <form className="Modal-cadastro-form" encType="multipart/form-data">
                     <label>
                         <span>Titulo</span>
                         <input
@@ -139,6 +161,9 @@ export default function CadastroImovelForm() {
                             <option value="FEMININO" onSelect={() => setSexo("FEMININO")}>
                                 Feminino
                             </option>
+                            <option value="INDIFERENTE" onSelect={() => setSexo("INDIFERENTE")}>
+                                Indiferente
+                            </option>
                         </Form.Select>
 
                     </label>
@@ -152,7 +177,7 @@ export default function CadastroImovelForm() {
                         />
                     </label>
 
-                    <Form.Control type="file" multiple value={fotos} onChange={e => handleFile(e)}/>
+                    <Form.Control type="file" multiple onChange={e => handleFile(e)} />
 
                     <FloatingLabel label="Descrição">
                         <Form.Control
