@@ -26,6 +26,7 @@ export default function CadastroImovelForm() {
     const [estado, setEstado] = useState("");
     const [sexo, setSexo] = useState("");
     const [quartos, setQuartos] = useState("");
+    const [preco, setPreco] = useState("");
     const [fotos, setPhotos] = useState([]);
 
     const colocarCep = async () => {
@@ -54,7 +55,8 @@ export default function CadastroImovelForm() {
             sexo: sexo,
             cidade: cidade,
             estado: estado,
-            numeroQuartos: quartos
+            numeroQuartos: quartos,
+            preco: preco
         };
 
         formData.append("id", auth.user.id);
@@ -173,7 +175,16 @@ export default function CadastroImovelForm() {
                         <input
                             type="text"
                             value={quartos}
-                            onChange={(e) => setQuartos(e.target.value.replace(/\D/g, ''))}
+                            onChange={(e) => setQuartos(e.target.value.replace(/\D/g, ""))}
+                        />
+                    </label>
+
+                    <label>
+                        <span>Preço</span>
+                        <input
+                            type="text"
+                            value={preco}
+                            onChange={(e) => setPreco(e.target.value.replace(/\D/g, "."))}
                         />
                     </label>
 
@@ -182,8 +193,7 @@ export default function CadastroImovelForm() {
                     <FloatingLabel label="Descrição">
                         <Form.Control
                             as="textarea"
-                            placeholder="Leave a comment here"
-                            style={{ height: '100px' }}
+                            style={{ height: "100px" }}
                             value={descricao}
                             onChange={(e) => setDescricao(e.target.value)}
                         />
