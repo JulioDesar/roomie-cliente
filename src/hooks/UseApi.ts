@@ -20,6 +20,17 @@ export const useApi = () => ({
 		if (response?.data) return response.data;
 
 	},
+
+	listar: async () => {
+		const response = await api.get("/clients/", {
+			headers: {
+				"Authorization": `Bearer ${sessionStorage.getItem("token")}`
+			}
+		});
+		console.log(response.data.content);
+		return response.data.content;
+	},
+
 	cadastrar: async (nome: string, cpf: string, telefone: string, nascimento: string, sexo: string, cep: string, numeroCasa: string, complemento: string, email: string, senha: string) => {
 		await api.post("/clients/", {
 			nome,

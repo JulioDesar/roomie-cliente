@@ -27,6 +27,7 @@ export default function CadastroImovelForm() {
     const [sexo, setSexo] = useState("");
     const [quartos, setQuartos] = useState("");
     const [preco, setPreco] = useState("");
+    const [semestre, setSemestre] = useState("");
     const [fotos, setPhotos] = useState([]);
 
     const colocarCep = async () => {
@@ -188,6 +189,28 @@ export default function CadastroImovelForm() {
                         />
                     </label>
 
+                    <label>
+                        <span>Quantos Semestres</span>
+                        <Form.Select
+                            value={semestre}
+                            onChange={(e) => setSexo(e.target.value)}
+                        >
+                            <option value="1" onSelect={() => setSemestre("1")}>
+                                1
+                            </option>
+                            <option value="2" onSelect={() => setSemestre("2")}>
+                                2
+                            </option>
+                            <option value="3" onSelect={() => setSemestre("3")}>
+                                3
+                            </option>
+                            <option value="4" onSelect={() => setSemestre("4")}>
+                                4
+                            </option>
+                        </Form.Select>
+
+                    </label>
+
                     <Form.Control type="file" multiple onChange={e => handleFile(e)} />
 
                     <FloatingLabel label="Descrição">
@@ -199,7 +222,7 @@ export default function CadastroImovelForm() {
                         />
                     </FloatingLabel>
                     <div>
-                        <Link to={"/"} ><Button variant="danger">Cancelar</Button></Link>
+                        <Link to={"/Imovel"} ><Button variant="danger">Cancelar</Button></Link>
                         <Button variant="success" onClick={cadastrarImovel}>Confirmar</Button>
                     </div>
                 </form>

@@ -38,7 +38,8 @@ export default function Navbar() {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-                                <Dropdown.Item onClick={() => navigate("/cadastrarImovel")}>Imoveis</Dropdown.Item>
+                                <Dropdown.Item onClick={() => navigate("/Imovel")}>Meus Imoveis</Dropdown.Item>
+                                <Dropdown.Item>Meus Alugueis</Dropdown.Item>
                                 <Dropdown.Item onClick={() => navigate("/atualizar")}>Meus Dados</Dropdown.Item>
                                 <Dropdown.Item onClick={signout}>Sair</Dropdown.Item>
                             </Dropdown.Menu>
