@@ -27,8 +27,28 @@ export const useApi = () => ({
 				"Authorization": `Bearer ${sessionStorage.getItem("token")}`
 			}
 		});
-		console.log(response.data.content);
 		return response.data.content;
+	},
+
+	listarAlugueis: async () => {
+		const response = await api.get("/alugueis/", {
+			headers: {
+				"Authorization": `Bearer ${sessionStorage.getItem("token")}`
+			}
+		});
+		return response.data.content;
+	},
+
+	alugar: async (cliente_id: any, imovel_id: any, dias: any) => {
+		const response = await api.post("/alugueis/", {
+			cliente_id,
+			imovel_id,
+			dias
+		}, {
+			headers: {
+				"Authorization": `Bearer ${sessionStorage.getItem("token")}`
+			}
+		});
 	},
 
 	cadastrar: async (nome: string, cpf: string, telefone: string, nascimento: string, sexo: string, cep: string, numeroCasa: string, complemento: string, email: string, senha: string) => {

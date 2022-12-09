@@ -1,0 +1,27 @@
+.Imovel-Container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.button-modal {
+  cursor: pointer;
+
+  background-color: #9ae6b4;
+  box-shadow: 0px 5px 15px rgba(0, 0, 13, 0.15);
+  padding: 8px 30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.button-modal:hover {
+  background-color: #85d3a0;
+}
+
+.button-modal > label {
+  cursor: pointer;
+}

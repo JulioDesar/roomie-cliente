@@ -2,9 +2,9 @@ import React from "react";
 import Listar from "../../components/Listar/Listar";
 import Navbar from "../../components/NavBar/NavBar";
 import { useNavigate } from "react-router-dom";
-import "./Imovel.scss";
+import "./ListarImovel.scss";
 
-export default function Imovel() {
+export default function ListarImovel() {
 
     const navigate = useNavigate();
 

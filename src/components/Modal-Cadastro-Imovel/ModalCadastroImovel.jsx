@@ -222,7 +222,7 @@ export default function CadastroImovelForm() {
                         />
                     </FloatingLabel>
                     <div>
-                        <Link to={"/Imovel"} ><Button variant="danger">Cancelar</Button></Link>
+                        <Link to={"/listarImovel"} ><Button variant="danger">Cancelar</Button></Link>
                         <Button variant="success" onClick={cadastrarImovel}>Confirmar</Button>
                     </div>
                 </form>
